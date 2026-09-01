@@ -1594,7 +1594,8 @@ document.addEventListener('click', e => {
 });
 
 // ── THEME ────────────────────────────────────────
-let isDark = localStorage.getItem('theme') !== 'light';
+const urlTheme = new URLSearchParams(location.search).get('theme');
+let isDark = urlTheme ? urlTheme !== 'light' : localStorage.getItem('theme') !== 'light';
 function applyTheme() {
   document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
