@@ -94,7 +94,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: none;
   overflow-y: scroll;
   height: 100%;
 }
@@ -108,8 +108,6 @@ body {
 
 /* ── SNAP SECTIONS ─────────────────────────────── */
 .section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   min-height: 100vh;
   position: relative;
   display: flex;
@@ -281,40 +279,43 @@ body {
 /* ── DOT NAV ───────────────────────────────────── */
 #dot-nav {
   position: fixed;
-  right: 24px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 999;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 .dot {
-  width: 10px; height: 10px;
+  width: 12px; height: 12px;
   border-radius: 50%;
-  border: 1.5px solid var(--gold);
+  border: 2px solid var(--gold);
   background: transparent;
   cursor: pointer;
   transition: all 0.3s;
   position: relative;
+  flex-shrink: 0;
 }
 .dot.active {
   background: var(--gold);
-  box-shadow: 0 0 8px var(--gold);
+  box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(201,168,76,0.4);
+  transform: scale(1.35);
 }
 .dot::before {
   content: attr(data-label);
   position: absolute;
-  right: 20px;
+  right: 22px;
   top: 50%; transform: translateY(-50%);
   white-space: nowrap;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   color: var(--gold-light);
-  background: rgba(0,0,0,0.7);
-  padding: 3px 8px;
+  background: rgba(0,0,0,0.82);
+  padding: 4px 10px;
+  border-radius: 3px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
@@ -868,7 +869,8 @@ body {
   .reviews-grid { grid-template-columns: 1fr; }
   .contacts-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
-  #dot-nav { right: 10px; }
+  #dot-nav { right: 8px; gap: 12px; }
+  .dot { width: 10px; height: 10px; }
   .dot::before { display: none; }
   .rating-links { margin-left: 0; }
 }
@@ -1628,33 +1630,94 @@ function updateTrafficLight() {
   }
 }
 
-// ── SCROLL NAV ───────────────────────────────────
-const sections = document.querySelectorAll('.section');
-const dots = document.querySelectorAll('.dot');
+// ── FULLPAGE NAVIGATION ───────────────────────────
+const sections = Array.from(document.querySelectorAll('.section'));
+const dots = Array.from(document.querySelectorAll('.dot'));
+let currentSection = 0;
+let isAnimating = false;
+const COOLDOWN = 900;
+const SWIPE_THRESHOLD = 50;
 
-function scrollToSection(idx) {
-  sections[idx].scrollIntoView({ behavior: 'smooth' });
-}
-
-function updateDots() {
-  const scrollTop = document.documentElement.scrollTop;
+function getActiveSectionIdx() {
+  const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   const winH = window.innerHeight;
-  let active = 0;
+  let best = 0;
   sections.forEach((s, i) => {
-    const top = s.offsetTop;
-    if (scrollTop >= top - winH/2) active = i;
+    if (scrollTop >= s.offsetTop - winH / 2) best = i;
   });
-  dots.forEach((d, i) => d.classList.toggle('active', i === active));
+  return best;
 }
 
-// ── SCROLL PROGRESS ──────────────────────────────
-function updateProgress() {
+function updateDots(idx) {
+  if (idx === undefined) idx = getActiveSectionIdx();
+  currentSection = idx;
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+function go(idx) {
+  if (idx < 0 || idx >= sections.length) return;
+  currentSection = idx;
+  isAnimating = true;
+  sections[idx].scrollIntoView({ behavior: 'smooth' });
+  updateDots(idx);
+  setTimeout(() => { isAnimating = false; }, COOLDOWN);
+}
+
+function scrollToSection(idx) { go(idx); }
+
+// Wheel: allow inner-scroll for tall sections, only navigate at boundary
+let wheelDelta = 0;
+window.addEventListener('wheel', (e) => {
+  if (isAnimating) { e.preventDefault(); return; }
+  const dir = e.deltaY > 0 ? 1 : -1;
+  const cur = sections[currentSection];
+  const rect = cur.getBoundingClientRect();
+  const sectionH = cur.offsetHeight;
+  // If section fits in viewport — navigate directly
+  if (sectionH <= window.innerHeight * 1.05) {
+    e.preventDefault();
+    go(currentSection + dir);
+    return;
+  }
+  // Tall section: allow natural scroll, check if we are at boundary
+  const atTop = rect.top >= -4;
+  const atBottom = rect.bottom <= window.innerHeight + 4;
+  if (dir === -1 && atTop) { e.preventDefault(); go(currentSection - 1); return; }
+  if (dir === 1 && atBottom) { e.preventDefault(); go(currentSection + 1); return; }
+  // else let natural scroll happen, update dots via scroll event
+}, { passive: false });
+
+// Keyboard
+window.addEventListener('keydown', (e) => {
+  if (isAnimating) return;
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); go(currentSection + 1); }
+  else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(currentSection - 1); }
+});
+
+// Touch swipe
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchend', (e) => {
+  if (isAnimating) return;
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) < SWIPE_THRESHOLD) return;
+  const dir = dy > 0 ? 1 : -1;
+  const cur = sections[currentSection];
+  const sectionH = cur.offsetHeight;
+  if (sectionH <= window.innerHeight * 1.05) { go(currentSection + dir); return; }
+  const rect = cur.getBoundingClientRect();
+  if (dir === -1 && rect.top >= -4) go(currentSection - 1);
+  else if (dir === 1 && rect.bottom <= window.innerHeight + 4) go(currentSection + 1);
+}, { passive: true });
+
+// Sync dots on native scroll (dot clicks on header links etc.)
+document.addEventListener('scroll', () => {
+  updateDots();
+  // ── SCROLL PROGRESS
   const el = document.documentElement;
   const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
   document.getElementById('scroll-progress').style.width = pct + '%';
-}
-
-document.addEventListener('scroll', () => { updateDots(); updateProgress(); }, { passive: true });
+}, { passive: true });
 
 // ── FAQ ──────────────────────────────────────────
 document.querySelectorAll('.faq-q').forEach(btn => {
