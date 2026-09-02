@@ -1665,17 +1665,12 @@ function go(idx) {
 
 function scrollToSection(idx) { go(idx); }
 
-// Wheel: idle-debounce — one gesture = one section, no skipping
+// Wheel: fixed cooldown — one gesture = one section, momentum tail ignored (no timer reset)
 let wheelLocked = false;
-let wheelIdleTimer = null;
-function resetWheelIdle() {
-  clearTimeout(wheelIdleTimer);
-  wheelIdleTimer = setTimeout(() => { wheelLocked = false; }, 700);
-}
 window.addEventListener('wheel', (e) => {
   e.preventDefault();
-  if (isAnimating) { resetWheelIdle(); return; }
-  if (Math.abs(e.deltaY) < 8) return;
+  if (wheelLocked) return;                  // fixed cooldown: ignore momentum tail, do NOT extend timer
+  if (Math.abs(e.deltaY) < 20) return;     // weak inertia tail — not a real gesture
   const dir = e.deltaY > 0 ? 1 : -1;
   const cur = sections[currentSection];
   const rect = cur.getBoundingClientRect();
@@ -1684,13 +1679,12 @@ window.addEventListener('wheel', (e) => {
   if (sectionH > window.innerHeight * 1.05) {
     const atTop = rect.top >= -4;
     const atBottom = rect.bottom <= window.innerHeight + 4;
-    if (dir === -1 && !atTop) { resetWheelIdle(); return; }
-    if (dir === 1 && !atBottom) { resetWheelIdle(); return; }
+    if (dir === -1 && !atTop) return;
+    if (dir === 1 && !atBottom) return;
   }
-  if (wheelLocked) { resetWheelIdle(); return; }
   wheelLocked = true;
   go(currentSection + dir);
-  resetWheelIdle();
+  setTimeout(() => { wheelLocked = false; }, 650);  // fixed 650ms — responsive, no momentum wait
 }, { passive: false });
 
 // Keyboard
