@@ -1665,26 +1665,32 @@ function go(idx) {
 
 function scrollToSection(idx) { go(idx); }
 
-// Wheel: allow inner-scroll for tall sections, only navigate at boundary
-let wheelDelta = 0;
+// Wheel: idle-debounce — one gesture = one section, no skipping
+let wheelLocked = false;
+let wheelIdleTimer = null;
+function resetWheelIdle() {
+  clearTimeout(wheelIdleTimer);
+  wheelIdleTimer = setTimeout(() => { wheelLocked = false; }, 700);
+}
 window.addEventListener('wheel', (e) => {
-  if (isAnimating) { e.preventDefault(); return; }
+  e.preventDefault();
+  if (isAnimating) { resetWheelIdle(); return; }
+  if (Math.abs(e.deltaY) < 8) return;
   const dir = e.deltaY > 0 ? 1 : -1;
   const cur = sections[currentSection];
   const rect = cur.getBoundingClientRect();
   const sectionH = cur.offsetHeight;
-  // If section fits in viewport — navigate directly
-  if (sectionH <= window.innerHeight * 1.05) {
-    e.preventDefault();
-    go(currentSection + dir);
-    return;
+  // Tall section: if content still scrollable in this direction — don't navigate, let scroll happen
+  if (sectionH > window.innerHeight * 1.05) {
+    const atTop = rect.top >= -4;
+    const atBottom = rect.bottom <= window.innerHeight + 4;
+    if (dir === -1 && !atTop) { resetWheelIdle(); return; }
+    if (dir === 1 && !atBottom) { resetWheelIdle(); return; }
   }
-  // Tall section: allow natural scroll, check if we are at boundary
-  const atTop = rect.top >= -4;
-  const atBottom = rect.bottom <= window.innerHeight + 4;
-  if (dir === -1 && atTop) { e.preventDefault(); go(currentSection - 1); return; }
-  if (dir === 1 && atBottom) { e.preventDefault(); go(currentSection + 1); return; }
-  // else let natural scroll happen, update dots via scroll event
+  if (wheelLocked) { resetWheelIdle(); return; }
+  wheelLocked = true;
+  go(currentSection + dir);
+  resetWheelIdle();
 }, { passive: false });
 
 // Keyboard
