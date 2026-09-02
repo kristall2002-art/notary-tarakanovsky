@@ -93,30 +93,34 @@
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html {
-  overflow-y: scroll;
-  height: 100%;
-}
-body {
+html, body {
+  width: 100%; height: 100%;
+  margin: 0; padding: 0;
+  overflow: hidden;
   font-family: var(--font-sans);
   background: var(--bg-dark);
   color: var(--text-primary);
-  height: 100%;
-  overflow-x: hidden;
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
 }
 
-/* ── SNAP SECTIONS ─────────────────────────────── */
+/* ── FULLPAGE WRAP ─────────────────────────────── */
+#fp-wrap {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+#fp-container {
+  will-change: transform;
+  transition: transform 0.8s cubic-bezier(.22,.61,.36,1);
+}
+
+/* ── SECTIONS ──────────────────────────────────── */
 .section {
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 /* ── BG PHOTOS ─────────────────────────────────── */
@@ -151,7 +155,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 40px 60px;
+  padding: 70px 40px 30px;
 }
 
 /* ── ORNAMENT ──────────────────────────────────── */
@@ -159,7 +163,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .ornament-line {
   flex: 1;
@@ -443,10 +447,10 @@ body {
 }
 .section-title {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.15;
 }
 .section-desc {
@@ -454,7 +458,7 @@ body {
   font-size: 1.1rem;
   color: var(--text-secondary);
   font-style: italic;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   max-width: 600px;
 }
 .services-grid {
@@ -465,7 +469,7 @@ body {
 .service-card {
   background: rgba(13,13,14,0.82);
   border: 1px solid var(--border);
-  padding: 24px 20px;
+  padding: 12px 14px;
   transition: all 0.3s;
   cursor: default;
   position: relative;
@@ -483,26 +487,26 @@ body {
 }
 .service-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 .service-card:hover::before { transform: scaleX(1); }
-.service-icon { font-size: 1.6rem; margin-bottom: 10px; }
+.service-icon { font-size: 1.2rem; margin-bottom: 4px; }
 .service-title {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  margin-bottom: 3px;
 }
 .service-desc {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 .service-category {
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold-dark);
-  margin-bottom: 16px;
-  padding-bottom: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
   border-bottom: 1px solid var(--border);
   grid-column: 1/-1;
   font-family: var(--font-sans);
@@ -755,7 +759,7 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
 }
-.contact-info { display: flex; flex-direction: column; gap: 24px; }
+.contact-info { display: flex; flex-direction: column; gap: 10px; }
 .contact-block {
   background: rgba(13,13,14,0.78);
   border: 1px solid var(--border);
@@ -790,10 +794,10 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   overflow: hidden;
-  height: 300px;
+  height: 180px;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 .map-placeholder { color: var(--text-muted); font-size: 0.85rem; text-align: center; }
 
@@ -801,7 +805,7 @@ body {
 .form-section {
   background: rgba(13,13,14,0.80);
   border: 1px solid var(--border);
-  padding: 32px;
+  padding: 18px 24px;
   position: relative;
 }
 [data-theme="light"] .form-section { background: rgba(255,249,238,0.88); }
@@ -811,8 +815,8 @@ body {
   color: var(--text-primary);
   margin-bottom: 6px;
 }
-.form-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 24px; }
-.form-row { margin-bottom: 16px; }
+.form-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
+.form-row { margin-bottom: 8px; }
 .form-label { display: block; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; font-family: var(--font-sans); }
 .form-input, .form-select {
   width: 100%;
@@ -831,7 +835,7 @@ body {
 .form-input:focus,.form-select:focus { border-color: var(--gold); }
 .form-input::placeholder { color: var(--text-muted); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-submit-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; }
+.form-submit-row { margin-top: 10px; display: flex; align-items: center; gap: 16px; }
 .form-note { font-size: 0.72rem; color: var(--text-muted); }
 #form-success { display: none; color: #4caf50; font-size: 0.9rem; margin-top: 12px; }
 
@@ -924,7 +928,7 @@ body {
 <!-- ═══════════════════════════════════════════════ -->
 <!-- SECTION 0: HERO -->
 <!-- ═══════════════════════════════════════════════ -->
-<section class="section" id="hero" data-section="0">
+<div id="fp-wrap"><div id="fp-container"><section class="section" id="hero" data-section="0">
   <div class="section-bg"></div>
   <div class="section-overlay"></div>
   <div class="section-overlay-grad"></div>
@@ -1347,6 +1351,7 @@ body {
   </div>
 </section>
 
+</div></div><!-- /fp-container /fp-wrap -->
 <!-- FOOTER -->
 <footer id="site-footer">
   <div class="footer-text">
@@ -1633,70 +1638,91 @@ function updateTrafficLight() {
   }
 }
 
-// ── FULLPAGE NAVIGATION (native scroll-snap + IntersectionObserver) ───────────
-const sections = Array.from(document.querySelectorAll('.section'));
-const dots = Array.from(document.querySelectorAll('.dot'));
-let currentSection = 0;
+// Helper for inline onclick attributes in HTML
+function scrollToSection(idx) { if (window._fpGoTo) window._fpGoTo(idx); }
 
-function scrollToSection(idx) {
-  if (idx < 0 || idx >= sections.length) return;
-  sections[idx].scrollIntoView({ behavior: 'smooth' });
-}
+// ══════════════════════════════════════════════════
+// TRANSFORM-BASED FULLPAGE ENGINE (momentum-safe, touch, dots)
+// ══════════════════════════════════════════════════
+(function(){
+  const sections = Array.from(document.querySelectorAll('.section'));
+  const dots     = Array.from(document.querySelectorAll('.dot'));
+  const n        = sections.length;
+  let current    = 0;
+  let isAnimating= false;
+  let silentUntil= 0;            // timestamp: ignore wheel until this time
 
-// IntersectionObserver — highlight dot for the most visible section
-const ioOptions = { root: document.body, threshold: 0, rootMargin: '-40% 0px -40% 0px' };
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const idx = sections.indexOf(entry.target);
-      if (idx !== -1) {
-        currentSection = idx;
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-      }
-    }
+  const wrap = document.getElementById('fp-wrap');
+  const cont = document.getElementById('fp-container');
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(n-1, idx));
+    if (idx === current && !isAnimating) return;
+    current = idx;
+    cont.style.transform = 'translateY(' + (-idx * 100) + 'vh)';
+    isAnimating = true;
+    // update dots
+    dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    // update scroll-progress bar to reflect position
+    const pct = n > 1 ? (idx/(n-1))*100 : 0;
+    const bar = document.getElementById('scroll-progress');
+    if (bar) bar.style.width = pct + '%';
+  }
+
+  cont.addEventListener('transitionend', function() {
+    // keep isAnimating true for an extra 280ms to absorb trackpad momentum tail
+    setTimeout(() => { isAnimating = false; }, 280);
   });
-}, ioOptions);
-sections.forEach(s => io.observe(s));
 
-// Scroll progress bar
-document.body.addEventListener('scroll', () => {
-  const el = document.body;
-  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
-  document.getElementById('scroll-progress').style.width = pct + '%';
-}, { passive: true });
+  // ── WHEEL ──────────────────────────────────────
+  wrap.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    if (isAnimating) return;
+    if (Date.now() < silentUntil) return;
+    const dir = e.deltaY > 0 ? 1 : -1;
+    goTo(current + dir);
+  }, { passive: false });
 
-// ── FAQ ──────────────────────────────────────────
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!wasOpen) item.classList.add('open');
+  // ── TOUCH ──────────────────────────────────────
+  let touchStartY = 0;
+  let touchMoved  = false;
+
+  wrap.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+    touchMoved  = false;
+  }, { passive: true });
+
+  wrap.addEventListener('touchmove', function(e) {
+    touchMoved = true;
+    // prevent native scroll while we handle it
+    e.preventDefault();
+  }, { passive: false });
+
+  wrap.addEventListener('touchend', function(e) {
+    if (!touchMoved) return;
+    const dy = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(dy) < 40) return;
+    if (isAnimating) return;
+    goTo(current + (dy > 0 ? 1 : -1));
+  }, { passive: true });
+
+  // ── KEYBOARD ───────────────────────────────────
+  document.addEventListener('keydown', function(e) {
+    if (isAnimating) return;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(current+1); }
+    if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goTo(current-1); }
   });
-});
 
-// ── FORM ─────────────────────────────────────────
-function submitForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  const body = Array.from(data.entries()).map(([k,v]) => `${k}: ${v}`).join('\n');
-  // mailto fallback
-  const mailtoLink = `mailto:site_vseti@mail.ru?subject=Запись+к+нотариусу+Таракановскому&body=${encodeURIComponent(body)}`;
-  // Show success immediately (mailto may open client)
-  const success = document.getElementById('form-success');
-  success.style.display = 'block';
-  form.reset();
-  // Try to open mailto
-  try { window.open(mailtoLink, '_blank'); } catch(err) {}
-  setTimeout(() => { success.style.display = 'none'; }, 6000);
-}
+  // ── DOT CLICKS ─────────────────────────────────
+  dots.forEach((d,i) => {
+    d.onclick = function() { goTo(i); };
+  });
 
-// ── INIT ─────────────────────────────────────────
-applyTheme();
-applyLang(currentLang);
-updateTrafficLight();
-updateDots();
+  // ── INIT ───────────────────────────────────────
+  goTo(0);
+  window._fpGoTo = goTo;
+
+})();
 setInterval(updateTrafficLight, 60000);
 </script>
 </body>
