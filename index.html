@@ -1649,7 +1649,7 @@ function getActiveSectionIdx() {
 }
 
 function updateDots(idx) {
-  if (idx === undefined) idx = getActiveSectionIdx();
+  if (idx === undefined) { idx = isAnimating ? currentSection : getActiveSectionIdx(); }
   currentSection = idx;
   dots.forEach((d, i) => d.classList.toggle('active', i === idx));
 }
