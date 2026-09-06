@@ -293,6 +293,10 @@ body[data-sec="0"] .dots button.cur::after{background:var(--p80)}
 
 /* ---------- faq ---------- */
 .faq{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start}
+/* когда под секцией лежит фотография, список вопросов ставим на карточку:
+   иначе тонкие разделители и значки «+» тонут в деталях фона */
+.sec-bg + .sec-scroll .faq{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 26px 10px;gap:0 40px}
+@media (max-width:760px){.sec-bg + .sec-scroll .faq{padding:4px 16px 8px;border-radius:14px}}
 .faq-col{display:flex;flex-direction:column}
 .fq{border-bottom:1px solid var(--line)}
 .fq > button{display:flex;width:100%;align-items:center;justify-content:space-between;gap:16px;padding:16px 4px;text-align:left;font-weight:600;font-size:15.5px;line-height:1.35}
