@@ -538,6 +538,9 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
 .info-note{font-size:13px;opacity:.7;margin:6px 0 10px}
 .info-i{border-bottom:1px solid var(--line)}
 .info-i > button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 2px;background:none;border:0;color:inherit;font:inherit;font-weight:600;text-align:left;cursor:pointer}
+.info-i > button .pl{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;flex:none;color:var(--accent-d);transition:transform .3s,background .3s}
+.info-i > button .pl .ico{width:14px;height:14px}
+.info-i.open > button .pl{transform:rotate(45deg);background:var(--accent-soft)}
 .info-i > div{display:none;padding:0 2px 14px;font-size:15px;line-height:1.62}
 .info-i.open > div{display:block}
 .info-i p{margin:0 0 10px}
@@ -1358,10 +1361,10 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
         '<svg class="ico"><use href="#ico-scroll"/></svg>' + esch(f.title || t('info_file')) + '</a>';
     }).join('');
   }
-  function src(url) { return url ? '<span class="info-src">' + esch(url) + '</span>' : ''; }
+  function src() { return ''; }   // адрес страницы-источника остаётся в данных, но посетителю не показывается
   function acc(title, inner) {
-    return '<div class="info-i"><button type="button" aria-expanded="false">' + esch(title) +
-      '<svg class="ico"><use href="#ico-plus-s"/></svg></button><div>' + inner + '</div></div>';
+    return '<div class="info-i"><button type="button" aria-expanded="false"><span>' + esch(title) +
+      '</span><span class="pl"><svg class="ico"><use href="#ico-plus-s"/></svg></span></button><div>' + inner + '</div></div>';
   }
   function infoBody(id) {
     var c = C(), out = '';
@@ -1386,7 +1389,8 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
       }).join('');
     } else if (id === 'articles') {
       out = (c.articles || []).map(function (a) {
-        return acc((a.date ? a.date + ' · ' : '') + a.title, pars(a.paragraphs) + files(a.files) + src(a.source_url));
+        var head = a.title ? ((a.date ? a.date + ' · ' : '') + a.title) : (a.date || t('info_articles'));
+        return acc(head, pars(a.paragraphs) + files(a.files) + src(a.source_url));
       }).join('');
     } else if (id === 'useful') {
       out = (c.useful || []).map(function (u) {
