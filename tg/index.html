@@ -44,7 +44,7 @@
   --bg:var(--p10); --bg2:var(--p20); --bg3:var(--p30); --card:var(--n10); --text:var(--n100); --muted:var(--n90);
   --line:var(--p50); --line2:var(--p40); --accent:var(--p90); --accent-d:var(--p100); --accent-l:var(--p80); --accent-soft:var(--p30);
   --on-accent:#fff; --shadow:0 1px 10px rgba(51,51,51,.10); --shadow-lg:0 12px 40px rgba(30,24,10,.14);
-  --hero-ov1:rgba(14,15,17,.72); --hero-ov2:rgba(14,15,17,.30); --sec-ov:rgba(248,248,248,.84);
+  --hero-ov1:rgba(14,15,17,.72); --hero-ov2:rgba(14,15,17,.30); --sec-ov:rgba(248,248,248,.72);
   --ok:#2e8b57; --bad:#b4453b;
 
   --hdr-h:68px; --bar-h:70px; --vh:100vh; --gap:24px; --radius:14px; --radius-s:10px;
@@ -55,7 +55,7 @@ html[data-theme="dark"]{
   --bg:#17150f; --bg2:#1d1a13; --bg3:#252117; --card:#221e15; --text:#f1ebdf; --muted:#b9ae98;
   --line:#3a3325; --line2:#2f2a1e; --accent:#c9b17f; --accent-d:#e0cf9f; --accent-l:#8d7b58; --accent-soft:#2a251a;
   --on-accent:#17150f; --shadow:0 1px 12px rgba(0,0,0,.45); --shadow-lg:0 14px 40px rgba(0,0,0,.55);
-  --hero-ov1:rgba(10,9,6,.80); --hero-ov2:rgba(10,9,6,.40); --sec-ov:rgba(16,15,12,.90);
+  --hero-ov1:rgba(10,9,6,.80); --hero-ov2:rgba(10,9,6,.40); --sec-ov:rgba(16,15,12,.80);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -295,6 +295,8 @@ body[data-sec="0"] .dots button.cur::after{background:var(--p80)}
 .faq{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start}
 /* когда под секцией лежит фотография, список вопросов ставим на карточку:
    иначе тонкие разделители и значки «+» тонут в деталях фона */
+.sec-bg + .sec-scroll .about-txt,.sec-bg + .sec-scroll .sec-head{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px}
+@media (max-width:760px){.sec-bg + .sec-scroll .about-txt,.sec-bg + .sec-scroll .sec-head{padding:14px 16px;border-radius:14px}}
 .sec-bg + .sec-scroll .faq{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 26px 10px;gap:0 40px}
 @media (max-width:760px){.sec-bg + .sec-scroll .faq{padding:4px 16px 8px;border-radius:14px}}
 .faq-col{display:flex;flex-direction:column}
