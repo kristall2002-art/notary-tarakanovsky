@@ -55,7 +55,7 @@ html[data-theme="dark"]{
   --bg:#17150f; --bg2:#1d1a13; --bg3:#252117; --card:#221e15; --text:#f1ebdf; --muted:#b9ae98;
   --line:#3a3325; --line2:#2f2a1e; --accent:#c9b17f; --accent-d:#e0cf9f; --accent-l:#8d7b58; --accent-soft:#2a251a;
   --on-accent:#17150f; --shadow:0 1px 12px rgba(0,0,0,.45); --shadow-lg:0 14px 40px rgba(0,0,0,.55);
-  --hero-ov1:rgba(10,9,6,.80); --hero-ov2:rgba(10,9,6,.40); --sec-ov:rgba(16,15,12,.80);
+  --hero-ov1:rgba(10,9,6,.80); --hero-ov2:rgba(10,9,6,.40); --sec-ov:rgba(16,15,12,.76);
 }
 
 *,*::before,*::after{box-sizing:border-box}
@@ -295,6 +295,13 @@ body[data-sec="0"] .dots button.cur::after{background:var(--p80)}
 .faq{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start}
 /* когда под секцией лежит фотография, список вопросов ставим на карточку:
    иначе тонкие разделители и значки «+» тонут в деталях фона */
+/* на секциях с фотографией карточки делаем чуть прозрачными с размытием:
+   интерьер просвечивает сквозь них, а текст остаётся на плотной подложке */
+.sec-bg + .sec-scroll .svc,.sec-bg + .sec-scroll .rev,.sec-bg + .sec-scroll .cbox,
+.sec-bg + .sec-scroll .cred,.sec-bg + .sec-scroll .faq,
+.sec-bg + .sec-scroll .about-txt,.sec-bg + .sec-scroll .sec-head{
+  background:color-mix(in srgb,var(--card) 86%,transparent);backdrop-filter:blur(7px)}
+.sec-bg + .sec-scroll .step p{color:var(--text)}
 .sec-bg + .sec-scroll .about-txt,.sec-bg + .sec-scroll .sec-head{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px}
 @media (max-width:760px){.sec-bg + .sec-scroll .about-txt,.sec-bg + .sec-scroll .sec-head{padding:14px 16px;border-radius:14px}}
 .sec-bg + .sec-scroll .faq{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 26px 10px;gap:0 40px}
