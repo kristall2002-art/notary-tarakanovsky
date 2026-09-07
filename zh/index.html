@@ -195,7 +195,16 @@ body[data-sec="0"] .dots button.cur::after{background:var(--p80)}
    поверх — плотная заливка тона страницы, чтобы текст читался так же, как без фото */
 .sec-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .sec-bg img{width:100%;height:100%;object-fit:cover}
-.sec-bg::after{content:"";position:absolute;inset:0;background:var(--sec-ov)}
+/* поверх фотографии — тот же тёмный градиент, что и на первом экране: фон читается
+   как настоящая фотография, а не как выцветшая подложка */
+.sec-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--hero-ov2) 0%,var(--hero-ov1) 100%),linear-gradient(90deg,rgba(14,15,17,.45),rgba(14,15,17,.05) 70%)}
+/* секция с фотографией живёт в тёмной палитре независимо от темы сайта */
+.sec:not(.sec-hero):has(> .sec-bg){background:transparent;color:#f4efe6;
+  --card:rgba(22,19,13,.68); --text:#f4efe6; --muted:#d3c9b6; --bg2:transparent; --bg3:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.22); --line2:rgba(255,255,255,.16);
+  --accent:#d9c69a; --accent-d:#ead9b4; --accent-l:#b7a279; --accent-soft:rgba(255,255,255,.10); --on-accent:#17150f;
+  --shadow:0 1px 12px rgba(0,0,0,.35); --shadow-lg:0 14px 40px rgba(0,0,0,.5)}
 .sec:not(.sec-hero) .sec-scroll{position:relative;z-index:1}
 
 /* ---------- hero ---------- */
@@ -572,6 +581,27 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
 .info-i th,.info-i td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
 .info-f{display:inline-flex;align-items:center;gap:7px;margin:0 8px 8px 0;padding:7px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;text-decoration:none;color:var(--accent-d)}
 .info-src{display:block;font-size:12px;opacity:.55;margin-top:8px}
+
+/* мобильный: экран должен помещаться целиком, без прокрутки внутри секции —
+   поэтому убираем самое объёмное (встроенная карта заменяется кнопкой) и поджимаем формы */
+@media (max-width:760px){
+  .mapbox{display:none}
+  .form .fld{margin-bottom:8px}
+  .reviews .rev:nth-child(n+4){display:none}
+  .creds .cred:nth-child(n+4){display:none}
+  /* второстепенное на телефоне убираем: метро и оплата есть в модалке часов,
+     язык и удобное время можно написать в комментарии */
+  .cl li:has([data-i18n="lbl_metro"]),.cl li:has([data-i18n="lbl_payment"]){display:none}
+  .fld:has(#fLang),.fld:has(#fTime){display:none}
+  .foot [data-i18n="foot_disclaimer"]{display:none}
+  .foot{padding-top:10px;font-size:12px}
+  #about .sec-head .lead,#contacts .sec-head .lead,.form .fnote{display:none}
+  /* на телефоне адрес, часы и телефоны всегда под рукой в нижней плашке,
+     поэтому на экране контактов оставляем форму и кнопки карты */
+  #contacts .cl{display:none}
+  #about .quote,#about .about-txt p:nth-of-type(3){display:none}
+  .creds .cred:nth-child(n+3){display:none}
+}
 
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":["Notary","LegalService","LocalBusiness"],"@id":"https://kristall2002-art.github.io/notary-tarakanovsky/#org","name":"公证员 Tarakanovsky Leonid Feliksovich","alternateName":["Нотариус Таракановский","公证员 Tarakanovsky"],"url":"https://kristall2002-art.github.io/notary-tarakanovsky/zh/","image":"https://kristall2002-art.github.io/notary-tarakanovsky/img/kazan_cathedral.jpg","description":"公证员 Tarakanovsky L. F.，喀山街 18 号。周一至五 09:00–19:00，周六 09:00–18:00。继承、委托书、交易、有限责任公司。预约：+7 (812) 315-25-23。","telephone":["+78123152523","+78123154230","+79219164153"],"email":"t3152523@yandex.ru","address":{"@type":"PostalAddress","streetAddress":"ул. Казанская, д. 18","addressLocality":"Санкт-Петербург","postalCode":"191186","addressRegion":"Санкт-Петербург","addressCountry":"RU"},"geo":{"@type":"GeoCoordinates","latitude":59.9334,"longitude":30.3204},"hasMap":"https://yandex.ru/maps/?text=%D0%9D%D0%BE%D1%82%D0%B0%D1%80%D0%B8%D1%83%D1%81%20%D0%A2%D0%B0%D1%80%D0%B0%D0%BA%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9B%D0%B5%D0%BE%D0%BD%D0%B8%D0%B4%20%D0%A4%D0%B5%D0%BB%D0%B8%D0%BA%D1%81%D0%BE%D0%B2%D0%B8%D1%87%20191186%2C%20%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%2C%20%D0%B4.%2018&sll=30.3204,59.9334&z=17","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"19:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Saturday"],"opens":"09:00","closes":"18:00"}],"areaServed":[{"@type":"City","name":"Санкт-Петербург"},{"@type":"State","name":"Ленинградская область"}],"paymentAccepted":"现金及银行卡","currenciesAccepted":"RUB","priceRange":"₽₽","foundingDate":"1994","knowsLanguage":["ru","en","uz","tg","ky","az","zh"],"sameAs":["https://2gis.ru/spb/search/%D0%A2%D0%B0%D1%80%D0%B0%D0%BA%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BD%D0%BE%D1%82%D0%B0%D1%80%D0%B8%D1%83%D1%81","http://казанская18.рф"],"employee":{"@type":"Person","name":"Tarakanovsky Leonid Feliksovich","alternateName":"Таракановский Леонид Феликсович","jobTitle":"公证员","memberOf":{"@type":"Organization","name":"圣彼得堡公证人协会","alternateName":"Нотариальная палата Санкт-Петербурга"},"identifier":"78/260-н/78"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"公证服务","itemListElement":[{"@type":"OfferCatalog","name":"房产与抵押","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"住宅、房屋、土地买卖","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"出售住宅份额","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"房产赠与","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"年金及终身赡养合同","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"共有份额抵押合同","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"份额出售通知共有人","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"份额确定协议","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"房屋使用方式协议","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"预备合同","serviceType":"房产与抵押"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"电子提交不动产登记局（Rosreestr）","serviceType":"房产与抵押"}}]},{"@type":"OfferCatalog","name":"继承与遗嘱","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"遗嘱公证","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"夫妻共同遗嘱","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"继承合同","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"继承案件的开立与办理","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"继承权证书","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"遗产分割协议","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"遗产保全措施","serviceType":"继承与遗嘱"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"上门或到医院为立遗嘱人办理","serviceType":"继承与遗嘱"}}]},{"@type":"OfferCatalog","name":"家庭与婚姻","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"婚姻财产协议（婚前协议）","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"共同财产分割协议","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"抚养费支付协议","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"母亲资本住房份额产权登记","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"配偶对交易的同意书","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"儿童出境同意书","serviceType":"家庭与婚姻"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"居住地登记同意书","serviceType":"家庭与婚姻"}}]},{"@type":"OfferCatalog","name":"委托书","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"总委托书（全权委托）","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"汽车驾驶与处分委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"住房管理委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"法庭代理委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"未成年人利益代理委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"领取养老金和补贴委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"办理继承案件委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"领取文件委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"银行账户处分委托","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"机读电子委托书（MChD）","serviceType":"委托书"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"撤销委托书","serviceType":"委托书"}}]},{"@type":"OfferCatalog","name":"企业与有限责任公司","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"有限责任公司股权买卖","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"注册资本份额赠与","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"股权质押","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"唯一股东决定公证","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"股东会决议记录公证","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"接受不可撤销的股权出售要约","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"期权合同及授予期权协议","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"可转换借款合同","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"股东退出有限责任公司申请","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"投资合伙合同","serviceType":"企业与有限责任公司"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"经营合伙管理协议","serviceType":"企业与有限责任公司"}}]},{"@type":"OfferCatalog","name":"签字与文件认证","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"签名真实性认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"文件及摘录副本一致性认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"译文准确性认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"文件出示时间认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"电子文件与纸质文件等效性认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"公民在世事实认证","serviceType":"签字与文件认证"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"网络证据保全（网站勘验）","serviceType":"签字与文件认证"}}]},{"@type":"OfferCatalog","name":"公证提存与担保","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"房产交易公证提存","serviceType":"公证提存与担保"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"破产提存","serviceType":"公证提存与担保"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"动产质押通知登记","serviceType":"公证提存与担保"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"质押通知登记簿摘录","serviceType":"公证提存与担保"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"执行签注（公证强制执行文书）","serviceType":"公证提存与担保"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"票据拒付证书","serviceType":"公证提存与担保"}}]},{"@type":"OfferCatalog","name":"声明与文件转递","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"通过邮寄及通讯渠道转递声明和文件","serviceType":"声明与文件转递"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"声明送达证明","serviceType":"声明与文件转递"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"文件保管","serviceType":"声明与文件转递"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"证据保全","serviceType":"声明与文件转递"}}]},{"@type":"OfferCatalog","name":"电子与远程服务","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"两名公证员参与的远程交易","serviceType":"电子与远程服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"电子提交不动产登记局（Rosreestr）和税务局（FNS）","serviceType":"电子与远程服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"文件等效性认证","serviceType":"电子与远程服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"通过公证员获取不动产登记（EGRN）和法人登记（EGRUL）摘录","serviceType":"电子与远程服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"机读电子委托书","serviceType":"电子与远程服务"}}]},{"@type":"OfferCatalog","name":"其他事项与上门服务","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"公证事项法律咨询","serviceType":"其他事项与上门服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"公证员上门、到医院或办公室办理","serviceType":"其他事项与上门服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"企业法人公证服务","serviceType":"其他事项与上门服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"起草合同和申请书","serviceType":"其他事项与上门服务"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"协助选择交易形式","serviceType":"其他事项与上门服务"}}]}]},"aggregateRating":{"@type":"AggregateRating","ratingValue":4.3,"reviewCount":27,"bestRating":5,"worstRating":1}}</script>
@@ -1015,6 +1045,7 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
     var cur = $('#langCur'); if (cur) cur.textContent = (dict._flag || code.toUpperCase());
     store('nb_lang', code);
     updateStatus(); buildDots(); buildHours();
+    scheduleFit();
     if ($('#infoModal') && (infoData || S.content)) renderInfo();
   }
   function langHref(code) { return (S.base || '') + (code === 'ru' ? '' : code + '/'); }
@@ -1320,7 +1351,8 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
         it.classList.toggle('open', !open); b.setAttribute('aria-expanded', String(!open));
       });
     });
-    var first = $('.fq'); if (first) { first.classList.add('open'); $('button', first).setAttribute('aria-expanded', 'true'); }
+    var first = $('.fq');
+    if (first && window.innerWidth > 760) { first.classList.add('open'); $('button', first).setAttribute('aria-expanded', 'true'); }
   }
 
   /* ---------- form ---------- */
@@ -1482,11 +1514,44 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
     });
   }
 
+  /* ---------- посадка экрана в телефон ----------
+     На узких экранах контент секции бывает выше окна, и палец сначала листает
+     секцию, а только потом перелистывается страница — не то перелистывание,
+     ради которого всё затевалось. Поэтому на мобильных ужимаем содержимое
+     секции ровно под высоту экрана. */
+  var MIN_ZOOM = 0.62;
+  function fitSections() {
+    var wide = window.innerWidth > 760;
+    $$('.sec').forEach(function (sec) {
+      var sc = $('.sec-scroll', sec), inner = sc && $('.wrap', sc);
+      if (!sc || !inner) return;
+      inner.style.zoom = '';
+      if (wide) return;
+      var have = sc.clientHeight;
+      if (!have || sc.scrollHeight <= have + 2) return;
+      /* zoom, а не transform: transform уменьшает картинку, но не размер блока,
+         и секция всё равно осталась бы прокручиваемой */
+      var k = Math.max(have / sc.scrollHeight * 0.99, MIN_ZOOM);
+      for (var i = 0; i < 6; i++) {
+        inner.style.zoom = k;
+        if (sc.scrollHeight <= sc.clientHeight + 2 || k <= MIN_ZOOM) break;
+        k = Math.max(k * (sc.clientHeight / sc.scrollHeight) * 0.99, MIN_ZOOM);
+      }
+    });
+  }
+  var fitTimer;
+  function scheduleFit() { clearTimeout(fitTimer); fitTimer = setTimeout(fitSections, 120); }
+
   /* ---------- init ---------- */
   function init() {
     initTheme(); initStars(); initFaq(); initForm(); initMenus(); initModals(); initInfo();
     initLang(); initScroller();
     setInterval(updateStatus, 60000);
+    scheduleFit();
+    window.addEventListener('resize', scheduleFit);
+    window.addEventListener('orientationchange', scheduleFit);
+    window.addEventListener('load', scheduleFit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
     var y = $('#year'); if (y) y.textContent = new Date().getFullYear();
     // block scroll on inner content when a modal is open
     $$('.mbox').forEach(function (m) { m.addEventListener('wheel', function (e) { e.stopPropagation(); }, { passive: true }); });
