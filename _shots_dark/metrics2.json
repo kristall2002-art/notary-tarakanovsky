@@ -1,0 +1,51 @@
+{
+  "home": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "1"
+  },
+  "services": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "0.736176"
+  },
+  "about": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "0.769392"
+  },
+  "how": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "0.824024"
+  },
+  "reviews": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "0.918808"
+  },
+  "faq": {
+    "scScrollH": 845,
+    "scClientH": 844,
+    "scScrollW": 390,
+    "scClientW": 390,
+    "wrapZoom": "0.780168"
+  },
+  "contacts": {
+    "scScrollH": 844,
+    "scClientH": 844,
+    "scScrollW": 448,
+    "scClientW": 390,
+    "wrapZoom": "0.801658"
+  }
+}

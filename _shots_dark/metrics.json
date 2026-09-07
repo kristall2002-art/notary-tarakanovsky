@@ -1,0 +1,114 @@
+{
+  "desktop_home": {
+    "scrollHeight": 900,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_services": {
+    "scrollHeight": 961,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_about": {
+    "scrollHeight": 900,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_how": {
+    "scrollHeight": 900,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_reviews": {
+    "scrollHeight": 900,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_faq": {
+    "scrollHeight": 900,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "desktop_contacts": {
+    "scrollHeight": 1059,
+    "clientHeight": 900,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_home": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_services": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_about": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_how": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_reviews": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_faq": {
+    "scrollHeight": 845,
+    "clientHeight": 844,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  },
+  "mobile_contacts": {
+    "scrollHeight": 844,
+    "clientHeight": 844,
+    "scrollWidth": 448,
+    "clientWidth": 390,
+    "zoom": "1",
+    "secZoom": "1"
+  }
+}

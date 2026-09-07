@@ -585,7 +585,14 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
 /* мобильный: экран должен помещаться целиком, без прокрутки внутри секции —
    поэтому убираем самое объёмное (встроенная карта заменяется кнопкой) и поджимаем формы */
 @media (max-width:760px){
-  .mapbox{display:none}
+  .mapbox .map{display:none}
+  .mapbox{padding:0;background:none;border:0}
+  /* карточка со списком контактов на телефоне не нужна: адрес, телефон, часы —
+     в нижней плашке; прячем её целиком, иначе остаётся пустая рамка */
+  #contacts .cbox:has(.cl){display:none}
+  .foot{padding-left:0;font-size:11.5px;gap:8px}
+  .foot .fl{white-space:normal;flex:1 1 auto}
+  .foot .fl a{margin:0 12px 0 0;display:inline-block}
   .form .fld{margin-bottom:8px}
   .reviews .rev:nth-child(n+4){display:none}
   .creds .cred:nth-child(n+4){display:none}
@@ -598,7 +605,6 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
   #about .sec-head .lead,#contacts .sec-head .lead,.form .fnote{display:none}
   /* на телефоне адрес, часы и телефоны всегда под рукой в нижней плашке,
      поэтому на экране контактов оставляем форму и кнопки карты */
-  #contacts .cl{display:none}
   #about .quote,#about .about-txt p:nth-of-type(3){display:none}
   .creds .cred:nth-child(n+3){display:none}
 }
@@ -1522,20 +1528,22 @@ html[data-theme="dark"] .badge small{color:var(--muted)}
   var MIN_ZOOM = 0.62;
   function fitSections() {
     var wide = window.innerWidth > 760;
+    /* на широком экране тоже поджимаем, но чуть-чуть: секция контактов бывает
+       выше окна, и подвал уезжает под нижнюю плашку */
+    var floor = wide ? 0.8 : MIN_ZOOM;
     $$('.sec').forEach(function (sec) {
       var sc = $('.sec-scroll', sec), inner = sc && $('.wrap', sc);
       if (!sc || !inner) return;
       inner.style.zoom = '';
-      if (wide) return;
       var have = sc.clientHeight;
       if (!have || sc.scrollHeight <= have + 2) return;
       /* zoom, а не transform: transform уменьшает картинку, но не размер блока,
          и секция всё равно осталась бы прокручиваемой */
-      var k = Math.max(have / sc.scrollHeight * 0.99, MIN_ZOOM);
+      var k = Math.max(have / sc.scrollHeight * 0.99, floor);
       for (var i = 0; i < 6; i++) {
         inner.style.zoom = k;
-        if (sc.scrollHeight <= sc.clientHeight + 2 || k <= MIN_ZOOM) break;
-        k = Math.max(k * (sc.clientHeight / sc.scrollHeight) * 0.99, MIN_ZOOM);
+        if (sc.scrollHeight <= sc.clientHeight + 2 || k <= floor) break;
+        k = Math.max(k * (sc.clientHeight / sc.scrollHeight) * 0.99, floor);
       }
     });
   }
